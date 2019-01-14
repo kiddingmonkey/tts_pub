@@ -24,7 +24,7 @@ agentid是企业应用的id，整型。可在应用的设置页面查看
 content是消息内容
 safe表示是否是保密消息，0表示否，1表示是，默认0
 """
-localtime = time.localtime(time.time())
+localtime = time.strftime('%Y.%m.%d',time.localtime(time.time()))
 # baseurl = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken'
 # securl = 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=%s' % access_token
 class WeChatMSG(object):
@@ -35,7 +35,7 @@ class WeChatMSG(object):
                             'corpsecret' : 'cpg2MCshucNU3smZBGVlnbnc9PRkvgkdmND3uZAZSEA',
                             }
         self.main_content = {
-			    "touser":"WuHao|WuXiGui",
+			    "touser":"WuHao",
                             "toparty":"2|4",
                             "agentid":"1000002",
                             "msgtype": "text",
@@ -79,10 +79,9 @@ def file_json (value_json):
     with codecs.open('tts.json','w','utf-8') as File:
           json.dump(Json,File)
 
-#def push_git (gitcommit):
+def push_git (gitcommit):
           os.system('git add tts.json')
-          os.system('git commit -m "commit"')
-          #os.system('git add tts.json')
+          os.system(gitcommit)
           os.system('git push origin master ')
 
 
@@ -101,7 +100,11 @@ print msgsender.posturl(sendmsg_url,msgsender.main_content)
 
 
 value_json = msgsender.main_content["text"]["content"]
-print value_json
+#print value_json
+print localtime
+gitcommit = 'git commit -m ' + '"' + localtime + ' tts.json 文件更新 ' + '"'
+print gitcommit 
+
 file_json(value_json)
-#push_git(gitcommit)
+push_git(gitcommit)
 
