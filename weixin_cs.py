@@ -7,6 +7,7 @@ import sys
 import io
 import os
 import codecs
+import chardet
 from collections import OrderedDict
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -24,7 +25,7 @@ agentid是企业应用的id，整型。可在应用的设置页面查看
 content是消息内容
 safe表示是否是保密消息，0表示否，1表示是，默认0
 """
-localtime = time.strftime('%Y.%m.%d',time.localtime(time.time()))
+localtime = time.strftime('%Y.%m.%d  %H:%M:%S',time.localtime(time.time()))
 # baseurl = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken'
 # securl = 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=%s' % access_token
 class WeChatMSG(object):
@@ -36,7 +37,7 @@ class WeChatMSG(object):
                             }
         self.main_content = {
 			    "touser":"WuHao",
-                            "toparty":"2|4",
+                            "toparty":"5",
                             "agentid":"1000002",
                             "msgtype": "text",
                             "text":{
@@ -69,16 +70,24 @@ def file_json (value_json):
 	      {
                 "action": "talk",
                 "voiceName": "Tian-Tian",
-                "text": value_json
+                "text": value_json.decode('utf-8')
               }
            ]
+    #Json_data = Json.decode('utf-8')
     #print type(Json)
     #print Json
+    Json_data_u = json.dumps(Json, encoding="UTF-8", ensure_ascii=False)
+    Json_data_s = Json_data_u.encode("utf-8")
+    #print Json_data_s
+    #print type(Json_data_s)
+    #print chardet.detect(Json_data_s)
     #s = list(Json)
     #print s
-    with codecs.open('tts.json','w','utf-8') as File:
-          json.dump(Json,File)
-
+    #with codecs.open('tts.json','w',encoding='utf-8') as File:
+    with open('tts.json','w') as File:
+  #        json.dump(Json_data_s,File)
+         File.write(Json_data_s)
+ 
 def push_git (gitcommit):
           os.system('git add tts.json')
           os.system(gitcommit)
@@ -100,10 +109,12 @@ print msgsender.posturl(sendmsg_url,msgsender.main_content)
 
 
 value_json = msgsender.main_content["text"]["content"]
-#print value_json
-print localtime
+#print '1' + value_json
+#print type(value_json)
+#print chardet.detect(value_json)
+#print localtime
 gitcommit = 'git commit -m ' + '"' + localtime + ' tts.json 文件更新 ' + '"'
-print gitcommit 
+#print gitcommit 
 
 file_json(value_json)
 push_git(gitcommit)
