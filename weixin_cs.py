@@ -90,12 +90,14 @@ def file_json (value_json):
     files = open(file,'w')
     files.write(Json_data_s)
  
-#def push_git (gitcommit):
+def push_git (gitcommit):
           #os.system('pwd')
           #print os.system('pwd')
-    os.system('git add .')
-    os.system('git commit -m ' + '"' + localtime + ' tts.json 文件更新 ' + '"')
-    os.system('git push origin master -f')
+           os.system('git add .')
+           print os.system('git status')
+           os.system(gitcommit)
+           print os.system('git status')
+           os.system('git push origin master')
 
 
 
@@ -117,9 +119,9 @@ value_json = msgsender.main_content["text"]["content"]
 #print type(value_json)
 #print chardet.detect(value_json)
 #print localtime
-#gitcommit = 'git commit -m ' + '"' + localtime + ' tts.json 文件更新 ' + '"'
+gitcommit = 'git commit -m ' + '"' + localtime + ' tts.json 文件更新 ' + '"'
 #print gitcommit 
 
 file_json(value_json)
-#push_git(gitcommit)
+push_git(gitcommit)
 
