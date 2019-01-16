@@ -84,14 +84,18 @@ def file_json (value_json):
     #s = list(Json)
     #print s
     #with codecs.open('tts.json','w',encoding='utf-8') as File:
-    with open('tts.json','w') as File:
+    #with open('/data/public/zabbix401/alertscripts/tts_pub/tts.json','w') as File:
   #        json.dump(Json_data_s,File)
-         File.write(Json_data_s)
+    file = os.path.join('/data/public/zabbix401/alertscripts/tts_pub/','tts.json')
+    files = open(file,'w')
+    files.write(Json_data_s)
  
-def push_git (gitcommit):
-          os.system('git add tts.json')
-          os.system(gitcommit)
-          os.system('git push origin master ')
+#def push_git (gitcommit):
+          #os.system('pwd')
+          #print os.system('pwd')
+    os.system('git add .')
+    os.system('git commit -m ' + '"' + localtime + ' tts.json 文件更新 ' + '"')
+    os.system('git push origin master -f')
 
 
 
@@ -113,9 +117,9 @@ value_json = msgsender.main_content["text"]["content"]
 #print type(value_json)
 #print chardet.detect(value_json)
 #print localtime
-gitcommit = 'git commit -m ' + '"' + localtime + ' tts.json 文件更新 ' + '"'
+#gitcommit = 'git commit -m ' + '"' + localtime + ' tts.json 文件更新 ' + '"'
 #print gitcommit 
 
 file_json(value_json)
-push_git(gitcommit)
+#push_git(gitcommit)
 
