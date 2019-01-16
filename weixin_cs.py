@@ -93,11 +93,15 @@ def file_json (value_json):
 def push_git (gitcommit):
           #os.system('pwd')
           #print os.system('pwd')
-           os.system('git add .')
-           print os.system('git status')
-           os.system(gitcommit)
-           print os.system('git status')
-           os.system('git push origin master')
+    #os.system('cd /usr/local && sudo touch aaa.txt')
+    os.system('git add . 2>&1>/usr/local/aaa.txt')
+    #os.system('cd /usr/local && sudo touch bbb.txt')
+    print os.system('git status 2>&1> /usr/local/bbb.txt')
+    os.system(gitcommit)
+    #os.system('cd /usr/local && sudo touch ccc.txt')
+    print os.system('git status 2>&1> /usr/local/ccc.txt')
+    #os.system('cd /usr/local && sudo touch ddd.txt')
+    os.system('git push origin master 2>&1> /usr/local/ddd.txt')
 
 
 
